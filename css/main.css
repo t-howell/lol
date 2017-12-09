@@ -1,0 +1,23 @@
+/*Main styles*/
+body {
+    background: rgb(0, 78, 173);
+    font-family: Helvetica, Arial, sans-serif;
+    color: #fff;
+}
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+div {
+    font-size: 3rem;
+    padding-top: 3em;
+}
+a {
+    color: #fff;
+}
+/*Adjusting height/size for placeholder text*/
+p#space {
+    font-size: 2rem;
+    padding-bottom: 1.4em;
+}
