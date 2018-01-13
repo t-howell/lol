@@ -8,21 +8,69 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <main>
+
+    <main id="main">
         <!--Bell audio for punchline reveal-->
         <audio src="bell-ding.wav"></audio>
         <!--Joke setup goes here-->
         <div id="joke">
+            <p v-for="joke">{{selectedJoke.setup}}</p>
+            <!--<p v-on:keyup.space="spacebar(jokeObj)"></p>
+            <p v-on:keyup.space="test"></p>-->
+            <button @click="getPunchline">Reveal punchline</button>
         </div>
-        <!--Punchline goes here-->
-        <div id="punchline">
-            <p id="space">(Press space to reveal punchline)</p>
-        </div>
+
         <!--Refresh icon-->
-        <div id="refresh"><a href="#"><i class="fa fa-refresh" aria-hidden="true"></i></a></div>
+        <div id="refresh"><a href="#" @click="refresh"><i class="fa fa-refresh" aria-hidden="true"></i></a></div>
     </main>
+
+
     <!-- Scripts -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
     <script src="https://use.fontawesome.com/d143077ebc.js"></script>
-    <script src="scripts/app.js"></script>
+   <!-- <script src="scripts/app.js"></script> -->
+
+    <script>
+        
+        const bellSound = new Audio('bell-ding.wav');
+        const app = new Vue ({
+            el: "#main",
+
+            mounted: function() {
+                fetch("https://08ad1pao69.execute-api.us-east-1.amazonaws.com/dev/random_ten")
+                .then(res => res.json())
+                .then(jokes => {
+                    //attach results to jokes array
+                    this.jokes = jokes;
+                    //set selectedJoke to first joke
+                    this.selectedJoke = this.jokes[0];
+                })
+                //to catch errors
+                .catch(err => console.log(err));
+            },
+            data: {
+                message: "hello Vue!",
+                jokes: [],
+                selectedJoke: {}
+
+            },
+            
+            methods: {
+                bellSoundFunction: function() {
+                    bellSound.currentTime = 0;
+                    bellSound.play();
+                },
+                getPunchline: function(selectedJoke) {
+                    this.bellSoundFunction();
+                    alert(app.selectedJoke.punchline);
+                    
+                },
+                refresh: function() {
+                    location.reload();
+                }
+            }
+        });
+
+    </script>
 </body>
 </html>
